@@ -3,8 +3,8 @@ const toDoInput = todoForm.querySelector('input');
 // same as const toDoInput = document.querySelector('#todo-form input');
 const toDoList = document.getElementById('todo-list');
 
-const TODOS_KEY = 'todos';
 let toDos = [];
+const TODOS_KEY = 'todos';
 
 function saveToDos() {
   localStorage.setItem('todos', JSON.stringify(toDos));
@@ -24,7 +24,7 @@ function paintTodo(newTodo) {
   span.innerText = newTodo.text;
   const button = document.createElement('button');
   button.innerText = '✔️';
-  button.addEventListener('click', deleteToDo);
+  button.addEventListener('click', deleteTodo);
   li.appendChild(span);
   li.appendChild(button);
   toDoList.appendChild(li);
@@ -56,3 +56,4 @@ if (saveToDos !== null) {
   parsedToDos.forEach(paintTodo);
 }
 paintTodo({ text: 'a', id: 121212 });
+
