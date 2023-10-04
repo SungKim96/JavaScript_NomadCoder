@@ -13,20 +13,20 @@ function saveToDos() {
 
 function deleteToDo(event) {
   const li = event.target.parentElement;
-  li.remove();
+  li.remove(); // delete parent li
   toDos = toDos.filter((toDo) => toDo.id !== parseInt(li.id));
   saveToDos();
 }
 
-function paintTodo(newTodo) {
+function paintToDo(newTodo) {
   // console.log('I will paint', newTodo);
   const li = document.createElement('li');
   li.id = newTodo.id;
   const span = document.createElement('span');
   span.innerText = newTodo.text;
   const button = document.createElement('button');
-  button.innerText = '✔️';
-  button.addEventListener('click', deleteToDo);
+  button.innerText = '❌';
+  // button.addEventListener('click', deleteToDo);
   li.appendChild(span);
   li.appendChild(button);
   toDoList.appendChild(li);
@@ -41,21 +41,22 @@ function handleToDoSubmit(event) {
     id: Date.now(),
   };
   toDos.push(newTodoObj);
-  paintTodo(newTodoObj);
+  paintToDo(newTodoObj);
   saveToDos();
 }
 
-function sayHello(item) {
-  console.log('this is the turn of', item);
-}
-
 toDoForm.addEventListener('submit', handleToDoSubmit);
+
+// Event Delegation for Delete Button Click
+toDoList.addEventListener('click', function (event) {
+  if (event.target.tagName === 'BUTTON') {
+    deleteToDo(event);
+  }
+});
 
 const savedToDos = localStorage.getItem(TODOS_KEY);
 if (savedToDos !== null) {
   const parsedToDos = JSON.parse(savedToDos);
   toDos = parsedToDos;
-  parsedToDos.forEach(paintTodo);
+  parsedToDos.forEach(paintToDo);
 }
-
-paintTodo({ text: 'a', id: 121212 });
